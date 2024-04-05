@@ -1,11 +1,23 @@
-const args = process.argv
+const fs = require('fs')
 
-// console.log('browser stuff', document, window)
+const studentName = process.argv[2]
+console.log(studentName)
 
-console.log(args)
+fs.appendFile('./students.txt', '\n' + studentName, (err) => {
+    if (err) {
+        return console.log(err)
+    }
+    console.log('Student has been added')
+})
 
-const sum = (str) => {
-    console.log(str)
-}
+// fs.readFile('./students.txt', 'utf8', (err, data) => {
+//     if (err) {
+//         return console.log(err)
+//     }
 
-sum (5, 20)
+//     const names = data.split('\n')
+
+//     for (let name of names) {
+//         console.log(name)
+//     }
+// })
