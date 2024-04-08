@@ -1,23 +1,11 @@
-const fs = require('fs')
-
+const printStudents = require('./lib/printStudents.js')
+const addStudent = require('./lib/addStudent.js')
 const studentName = process.argv[2]
 console.log(studentName)
 
-fs.appendFile('./students.txt', '\n' + studentName, (err) => {
-    if (err) {
-        return console.log(err)
-    }
-    console.log('Student has been added')
-})
+if (studentName === 'print') {
+    printStudents()
+} else {
+    addStudent(studentName)
+}
 
-// fs.readFile('./students.txt', 'utf8', (err, data) => {
-//     if (err) {
-//         return console.log(err)
-//     }
-
-//     const names = data.split('\n')
-
-//     for (let name of names) {
-//         console.log(name)
-//     }
-// })
