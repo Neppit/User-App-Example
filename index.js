@@ -1,11 +1,14 @@
-const printStudents = require('./lib/printStudents.js')
-const addStudent = require('./lib/addStudent.js')
+const { print, add } = require('./lib/studentTools.js')
+const dayjs = require('dayjs')
+
 const studentName = process.argv[2]
-console.log(studentName)
+
 
 if (studentName === 'print') {
-    printStudents()
+    print()
 } else {
-    addStudent(studentName)
+    const date = dayjs().format('MM/DD/YYYY')
+
+    add(studentName + ' - ' + date)
 }
 
