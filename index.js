@@ -5,13 +5,11 @@ inquirer.prompt([{
     name: 'color',
     message: 'Please type your favorite color'
 },
-
 {
     type: 'confirm',
     name: 'likesNode',
     message: 'Do you like Node JS?'
 },
-
 {
     type: 'list',
     name: 'answer',
