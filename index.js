@@ -1,31 +1,28 @@
-const inquirer = require('inquirer')
+// const alice = {
+//     name: 'Alice',
+//     age: 23
+// }
 
-inquirer.prompt([{
-    type: 'input',
-    name: 'color',
-    message: 'Please type your favorite color'
-},
-{
-    type: 'confirm',
-    name: 'likesNode',
-    message: 'Do you like Node JS?'
-},
-{
-    type: 'list',
-    name: 'answer',
-    message: 'What do we use to import a package into a JS file in Node?',
-    choices: ['return', 'require', 'function'],
-},
-{
-    type: 'checkbox',
-    name: 'food',
-    message: 'What is your favorite food genre?',
-    choices: ['Korean', 'Turkish'],
-}]
-)
-    .then((answerObj) => {
-        console.log(answerObj)
-    })
-    .catch((err) => {
-        console.log(err)
-    })
+function Person(name, age, hobbies) {
+    this.name = name
+    this.age = age
+    this.hobbies = hobbies
+    }
+
+    Person.prototype.haveBirthday = function() {
+        this.age++
+        console.log('Happy Birthday')
+    }
+
+    Person.prototype.printBirthday = function() {
+        console.log(`You are ${this.age} years old.`)
+    }
+
+    Person.prototype.species = 'homosapien'
+
+const alice = new Person('Alice', '23', ['writing', 'sleeping'])
+const bob = new Person('Bob', '40', ['Bingo', 'Sitting'])
+
+alice.haveBirthday()
+alice.printBirthday()
+console.log(alice)
