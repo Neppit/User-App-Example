@@ -1,53 +1,65 @@
-const axios = require('axios')
-const inquirer = require('inquirer')
+const express = require('express')
+const app = express()
+const PORT = 3333
 
-const baseURL = 'https://swapi.dev/api'
-
-function outputSearchResults(data) {
-    console.log('\nResults:\n---------')
-
-    data.results.forEach(result => {
-        console.log('Name:', result.name)
-    })
-}
-
-async function makeRequest(data) {
-    const url = `${baseURL}/${data.dataset.toLowerCase()}?search=${data.search}`
-
-    const res = await axios.get(url)
-    
-    return res.data
-}
-
-async function getSearch(datasetObject) {
-    const searchObject = await inquirer.prompt({
-        name: 'search',
-        message: 'Please type a search word for your chosen dataset'
-    })
-
-    return {
-        datasetObject: datasetObject,
-        searchObject: searchObject,
+const data = [
+    {
+        id: 1,
+        name: 'Alice',
+        age: 23
+    },
+    {
+        id: 2,
+        name: 'Ben',
+        age: 20
+    },
+    {
+        id: 3,
+        name: 'Sarah',
+        age: 24
     }
-}
+]  
 
-async function getDataset() {
-    const answerObj = await inquirer.prompt({
-        name: 'choice',
-        type: 'list',
-        message: 'Please select a dataset from the list',
-        choices: ['Films', 'People', 'Planets', 'Species', 'Starships', 'Vehicles']
+
+app.get('/', (requestObj, responseObj) => {
+    responseObj.send('Hello World')
+})
+
+app.get('/api/:user_id', (requestObj, responseObj) => {
+    const id = requestObj.params.user_id
+    const user = data.find((userObj) => {
+        if (userObj.id === id) return true
     })
 
-    return answerObj
-}
+    if (user) {
+        return responseObj.json(user)
+    }
 
-getDataset()
-    .then(getSearch)
-    .then(makeRequest)
-    .then(outputSearchResults)
+    return responseObj.json({
+        message: 'User not found matching that id'
+    })
+})
 
-// axios.get(baseURL + '/planets')
-//     .then((res) => {
-//         console.log(res.data)
-//     })
+app.get('/about', (requestObj, responseObj) => {
+    responseObj.send('<h1>About</h1>')
+})
+
+app.get('/data', (requestObj, responseObj) => {
+    const queryParams = requestObj.query
+
+    const obj = {}
+
+    if (queryParams.name === 'true') {
+        obj.name = 'Alice'
+    }
+
+    if (queryParams.age === 'true') {
+        obj.age = 23
+    }
+
+    responseObj.json(obj)
+})
+
+app.listen(PORT, () => {
+    console.log('Server running on port', PORT)
+})
