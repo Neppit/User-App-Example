@@ -28,11 +28,23 @@ app.use(express.static('./public'))
 // })
 
 app.get('/api/users', (requestObj, responseObj) => {
+    const nameQuery = requestObj.query.name.toLowerCase()
+
+    if (nameQuery) {
+        const user = data.find(uObj => uObj.name.toLowerCase() === nameQuery)
+
+        return responseObj.json(user)
+    }
+
     responseObj.send(data)
 })
 
 app.get('/api/users/:id', (requestObj, responseObj) => {
-    responseObj.send()
+    const paramId = requestObj.params.id
+
+    const user = data.find(uObj => uObj.id == paramId)
+
+    responseObj.json(user || { message: 'User not found by that ID' })
 })
 
 
