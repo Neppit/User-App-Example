@@ -1,52 +1,16 @@
 const express = require('express')
 const path = require('path')
 const app = express()
+const api_routes = require('./routes/api_routes')
 const PORT = 3333
-
-const data = [
-    {
-        id: 1,
-        name: 'Alice',
-        age: 23
-    },
-    {
-        id: 2,
-        name: 'Ben',
-        age: 20
-    },
-    {
-        id: 3,
-        name: 'Sarah',
-        age: 24
-    }
-]  
 
 app.use(express.static('./public'))
 
-// app.get('/', (requestObj, responseObj) => {
-//     responseObj.sendFile(path.join(__dirname, './public/index.html'))
-// })
+app.use(express.urlencoded({extended: false}))
 
-app.get('/api/users', (requestObj, responseObj) => {
-    const nameQuery = requestObj.query.name.toLowerCase()
+app.use(express.json())
 
-    if (nameQuery) {
-        const user = data.find(uObj => uObj.name.toLowerCase() === nameQuery)
-
-        return responseObj.json(user)
-    }
-
-    responseObj.send(data)
-})
-
-app.get('/api/users/:id', (requestObj, responseObj) => {
-    const paramId = requestObj.params.id
-
-    const user = data.find(uObj => uObj.id == paramId)
-
-    responseObj.json(user || { message: 'User not found by that ID' })
-})
-
+app.use('/api', api_routes)
 
 app.listen(PORT, () => {
     console.log('Server running on port', PORT)
